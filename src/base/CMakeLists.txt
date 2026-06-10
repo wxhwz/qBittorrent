@@ -230,7 +230,13 @@ target_link_libraries(qbt_base
     PRIVATE
         OpenSSL::Crypto
         OpenSSL::SSL
+
 		maxminddb::maxminddb
+
+        # find whatever zlib target that exists while being compatible with both
+        # FindZLIB (from cmake) and zlib own scripts
+        $<IF:$<TARGET_EXISTS:ZLIB::ZLIB>,ZLIB::ZLIB,ZLIB::ZLIBSTATIC>
+
     PUBLIC
         LibtorrentRasterbar::torrent-rasterbar
         Qt::Core
