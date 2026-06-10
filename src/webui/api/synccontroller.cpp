@@ -888,8 +888,8 @@ void SyncController::torrentPeersAction()
 
             if (resolvePeerCountries)
             {
-                peer[KEY_PEER_COUNTRY_CODE] = pi.country().toLower();
-                peer[KEY_PEER_COUNTRY] = Net::GeoIPManager::CountryName(pi.country());
+                peer[KEY_PEER_COUNTRY_CODE] = pi.peerGeoInfo()->country_iso.toLower();
+                peer[KEY_PEER_COUNTRY] = Net::GeoIPManager::CountryName(pi.peerGeoInfo()->country_iso);
             }
             else
             {

@@ -102,12 +102,12 @@ AboutDialog::AboutDialog(QWidget *parent)
 
     connect(m_ui->btnCopyToClipboard, &QAbstractButton::clicked, this, &AboutDialog::copyVersionsToClipboard);
 
-    const QString DBIPText = u"<html><head/><body><p>"
-                             u"%1 (<a href=\"https://db-ip.com/\">https://db-ip.com/</a>)"
+    const QString MaxMindText = u"<html><head/><body><p>"
+                             u"%1 (<a href=\"https://www.maxmind.com/\">https://www.maxmind.com/</a>)"
                              u"</p></body></html>"_s
-                             .arg(tr("The free IP to Country Lite database by DB-IP is used for resolving the countries of peers. "
+                             .arg(tr("The free GeoLite2 database by MaxMind is used for resolving the location of peers. "
                                      "The database is licensed under the Creative Commons Attribution 4.0 International License"));
-    m_ui->labelDBIP->setText(DBIPText);
+    m_ui->labelDBIP->setText(MaxMindText);
 
     if (const QSize dialogSize = m_storeDialogSize; dialogSize.isValid())
         resize(dialogSize);

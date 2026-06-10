@@ -1,32 +1,6 @@
-/*
- * Bittorrent Client using Qt and libtorrent.
- * Copyright (C) 2006  Christophe Dumez <chris@qbittorrent.org>
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- *
- * In addition, as a special exception, the copyright holders give permission to
- * link this program with the OpenSSL project's "OpenSSL" library (or with
- * modified versions of it that use the same license as the "OpenSSL" library),
- * and distribute the linked executables. You must obey the GNU General Public
- * License in all respects for all of the code used other than "OpenSSL".  If you
- * modify file(s), you may extend this exception to your version of the file(s),
- * but you are not obligated to do so. If you do not wish to do so, delete this
- * exception statement from your version.
- */
+// 本文件为 PeerListWidget 类的头文件，用于显示 BitTorrent 连接的 peers 列表
 
-#pragma once
+#pragma once  // 防止头文件被重复包含
 
 #include <QHash>
 #include <QSet>
@@ -47,64 +21,81 @@ namespace BitTorrent
     class PeerInfo;
 }
 
-
+// PeerListWidget 类继承自 QTreeView，用于以表格形式展示对等点（peer）信息
 class PeerListWidget final : public QTreeView
 {
-    Q_OBJECT
-    Q_DISABLE_COPY_MOVE(PeerListWidget)
+    Q_OBJECT  // 启用 Qt 元对象特性，支持信号槽
+        Q_DISABLE_COPY_MOVE(PeerListWidget)  // 禁止复制和移动构造/赋值
 
 public:
+    // 定义表格中各列的枚举值，用于索引对应的列
     enum PeerListColumns
     {
-        COUNTRY,
-        IP,
-        PORT,
-        CONNECTION,
-        FLAGS,
-        CLIENT,
-        PEERID_CLIENT,
-        PROGRESS,
-        DOWN_SPEED,
-        UP_SPEED,
-        TOT_DOWN,
-        TOT_UP,
-        RELEVANCE,
-        DOWNLOADING_PIECE,
-        IP_HIDDEN,
+        COUNTRY,            // 国家/地区列
+        LOCATION,
+        IP,                 // IP 地址列
+        PORT,               // 端口列
+        IP_ORGNANIZATION,
 
-        COL_COUNT
+        CONNECTION,         // 连接类型列
+        FLAGS,              // 标志位列
+        CLIENT,             // 客户端名称列
+        PEERID_CLIENT,      // Peer ID 客户端列
+        PROGRESS,           // 下载进度列
+        DOWN_SPEED,         // 下载速度列
+        UP_SPEED,           // 上传速度列
+        PEER_DOWN_SPEED,
+        RTT,
+        TOT_DOWN,           // 总下载量列
+        TOT_UP,             // 总上传量列
+        RELEVANCE,          // 相关性列
+        DOWNLOADING_PIECE,  // 正在下载的分片列
+        IP_HIDDEN,          // IP 隐藏状态列
+
+        COL_COUNT           // 列的总数，用于循环或数组大小
+
+
     };
 
-    explicit PeerListWidget(PropertiesWidget *parent);
-    ~PeerListWidget() override;
+    explicit PeerListWidget(PropertiesWidget* parent);  // 构造函数，parent 为父窗口
+    ~PeerListWidget() override;  // 析构函数
 
-    void loadPeers(const BitTorrent::Torrent *torrent);
+    // 加载指定 torrent 的 peers 列表数据并显示
+    void loadPeers(const BitTorrent::Torrent* torrent);
+    // 更新对端主机名解析的状态（启用/禁用）
     void updatePeerHostNameResolutionState();
+    // 更新对端国家/地区解析的状态（启用/禁用）
     void updatePeerCountryResolutionState();
+    // 清空当前列表中的所有条目
     void clear();
 
 private slots:
-    bool loadSettings();
-    void saveSettings() const;
-    void displayColumnHeaderMenu();
-    void showPeerListMenu();
-    void banSelectedPeers();
-    void copySelectedPeers();
-    void handleSortColumnChanged(int col);
-    void handleResolved(const QHostAddress &ip, const QString &hostname) const;
+    bool loadSettings();          // 加载设置（如列可见性、排序等）
+    void saveSettings() const;    // 保存当前设置
+    void displayColumnHeaderMenu(); // 显示列标题的右键菜单，用于定制列
+    void showPeerListMenu();      // 显示对端列表的右键菜单
+    void banSelectedPeers();      // 封禁选中的对端
+    void copySelectedPeers();     // 复制选中的对端信息到剪贴板
+    void copySelectedPeersLocation();
+    void copySelectedPeersISP();
+    void NexttraceSelectedPeer();
+    void handleSortColumnChanged(int col); // 处理排序列变化
+    void handleResolved(const QHostAddress& ip, const QString& hostname) const; // 处理 IP 反向解析完成的结果
 
 private:
-    void updatePeer(int row, const BitTorrent::Torrent *torrent, const BitTorrent::PeerInfo &peer, bool hideZeroValues);
+    // 更新指定行的对端信息显示
+    void updatePeer(int row, const BitTorrent::Torrent* torrent, const BitTorrent::PeerInfo& peer, bool hideZeroValues);
+    // 返回当前可见列的数量（用于布局）
     int visibleColumnsCount() const;
 
-    void wheelEvent(QWheelEvent *event) override;
+    void wheelEvent(QWheelEvent* event) override;  // 重写鼠标滚轮事件，实现自定义滚动行为
 
-    QStandardItemModel *m_listModel = nullptr;
-    PeerListSortModel *m_proxyModel = nullptr;
-    PropertiesWidget *m_properties = nullptr;
-    QHash<PeerEndpoint, QStandardItem *> m_peerItems;
-    QList<QStandardItem *> m_I2PPeerItems;
-    QHash<QHostAddress, QSet<QStandardItem *>> m_itemsByIP;  // must be kept in sync with `m_peerItems`
-    bool m_resolveCountries = false;
-    bool m_resolveHostNames = false;
+    QStandardItemModel* m_listModel = nullptr;   // 列表数据模型（标准项模型）
+    PeerListSortModel* m_proxyModel = nullptr;   // 排序代理模型
+    PropertiesWidget* m_properties = nullptr;    // 父级属性窗口指针，用于交互
+    QHash<PeerEndpoint, QStandardItem*> m_peerItems;        // 对端端点 -> 列表项的映射
+    QList<QStandardItem*> m_I2PPeerItems;                   // I2P 网络的对端列表项集合
+    QHash<QHostAddress, QSet<QStandardItem*>> m_itemsByIP;  // IP 地址 -> 所有具有该 IP 的列表项集合（需与 m_peerItems 保持同步）
+    bool m_resolveCountries = true;   // 是否解析国家/地区（通过 IP 定位）
+    bool m_resolveHostNames = false;   // 是否反向解析主机名
 };

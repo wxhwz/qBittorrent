@@ -1,33 +1,3 @@
-/*
- * Bittorrent Client using Qt and libtorrent.
- * Copyright (C) 2023-2025  Vladimir Golovnev <glassez@yandex.ru>
- * Copyright (C) 2024  Jonathan Ketchker
- * Copyright (C) 2006  Christophe Dumez <chris@qbittorrent.org>
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- *
- * In addition, as a special exception, the copyright holders give permission to
- * link this program with the OpenSSL project's "OpenSSL" library (or with
- * modified versions of it that use the same license as the "OpenSSL" library),
- * and distribute the linked executables. You must obey the GNU General Public
- * License in all respects for all of the code used other than "OpenSSL".  If you
- * modify file(s), you may extend this exception to your version of the file(s),
- * but you are not obligated to do so. If you do not wish to do so, delete this
- * exception statement from your version.
- */
-
 #include "optionsdialog.h"
 
 #include <algorithm>
@@ -841,9 +811,21 @@ void OptionsDialog::loadConnectionTabOptions()
 {
     const auto *session = BitTorrent::Session::instance();
 
-    m_ui->comboProtocol->setCurrentIndex(static_cast<int>(session->btProtocol()));
+    //m_ui->comboProtocol->setCurrentIndex(static_cast<int>(session->btProtocol()));
+
+    m_ui->comboProtocolTCP->setCurrentIndex(static_cast<int>(session->btProtocolTCP()));
+    m_ui->comboProtocolUTP->setCurrentIndex(static_cast<int>(session->btProtocolUTP()));
     m_ui->spinPort->setValue(session->port());
     m_ui->checkUPnP->setChecked(Net::PortForwarder::instance()->isEnabled());
+    ////stun
+    //m_ui->CheckStun->setChecked(Preferences::instance()->isStunEnabled());
+    //m_ui->textStunServer->setText(Preferences::instance()->getStunServer());
+    //m_ui->textStunHttpServer->setText(Preferences::instance()->getStunHttpServer());
+
+    m_ui->CheckStun->setChecked(session->isStunEnabled());
+    m_ui->textStunServer->setText(session->getStunServer());
+    m_ui->textStunHttpServer->setText(session->getStunHttpServer());
+    m_ui->checkSameIPv6Port->setChecked(session->isStunSameIPv6PortEnabled());
 
     int intValue = session->maxConnections();
     if (intValue > 0)
@@ -943,9 +925,16 @@ void OptionsDialog::loadConnectionTabOptions()
     m_ui->IpFilterRefreshBtn->setEnabled(m_ui->checkIPFilter->isChecked());
     m_ui->checkIpFilterTrackers->setChecked(session->isTrackerFilteringEnabled());
 
-    connect(m_ui->comboProtocol, qComboBoxCurrentIndexChanged, this, &ThisType::enableApplyButton);
+    //connect(m_ui->comboProtocol, qComboBoxCurrentIndexChanged, this, &ThisType::enableApplyButton);
+    connect(m_ui->comboProtocolTCP, qComboBoxCurrentIndexChanged, this, &ThisType::enableApplyButton);
+    connect(m_ui->comboProtocolUTP, qComboBoxCurrentIndexChanged, this, &ThisType::enableApplyButton);
     connect(m_ui->spinPort, qSpinBoxValueChanged, this, &ThisType::enableApplyButton);
     connect(m_ui->checkUPnP, &QAbstractButton::toggled, this, &ThisType::enableApplyButton);
+
+    connect(m_ui->CheckStun, &QGroupBox::toggled, this, &ThisType::enableApplyButton);
+    connect(m_ui->textStunServer, &QLineEdit::textChanged, this, &ThisType::enableApplyButton);
+    connect(m_ui->textStunHttpServer, &QLineEdit::textChanged, this, &ThisType::enableApplyButton);
+    connect(m_ui->checkSameIPv6Port, &QAbstractButton::toggled, this, &ThisType::enableApplyButton);
 
     connect(m_ui->checkMaxConnections, &QAbstractButton::toggled, m_ui->spinMaxConnec, &QWidget::setEnabled);
     connect(m_ui->checkMaxConnections, &QAbstractButton::toggled, this, &ThisType::enableApplyButton);
@@ -994,9 +983,22 @@ void OptionsDialog::saveConnectionTabOptions() const
 {
     auto *session = BitTorrent::Session::instance();
 
-    session->setBTProtocol(static_cast<BitTorrent::BTProtocol>(m_ui->comboProtocol->currentIndex()));
+    //session->setBTProtocol(static_cast<BitTorrent::BTProtocol>(m_ui->comboProtocol->currentIndex()));
+
+    session->setBTProtocolTCP(static_cast<BitTorrent::BTProtocol_TCP>(m_ui->comboProtocolTCP->currentIndex()));
+    session->setBTProtocolUTP(static_cast<BitTorrent::BTProtocol_UTP>(m_ui->comboProtocolUTP->currentIndex()));
     session->setPort(getPort());
     Net::PortForwarder::instance()->setEnabled(isUPnPEnabled());
+
+    //stun
+    //Preferences::instance()->setStunEnabled(m_ui->CheckStun->isChecked());
+    //Preferences::instance()->setStunServer(m_ui->textStunServer->text());
+    //Preferences::instance()->setStunHttpServer(m_ui->textStunHttpServer->text());
+    session->setStunEnabled(m_ui->CheckStun->isChecked());
+    session->setStunServer(m_ui->textStunServer->text());
+    session->setStunHttpServer(m_ui->textStunHttpServer->text());
+    session->setStunSameIPv6PortEnabled(m_ui->checkSameIPv6Port->isChecked());
+
 
     session->setMaxConnections(getMaxConnections());
     session->setMaxConnectionsPerTorrent(getMaxConnectionsPerTorrent());

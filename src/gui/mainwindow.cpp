@@ -564,7 +564,7 @@ void MainWindow::setTitleSuffix(const QString &suffix)
 {
     const auto emDash = QChar(0x2014);
     const QString separator = u' ' + emDash + u' ';
-    m_windowTitle = QStringLiteral("qBittorrent " QBT_VERSION)
+    m_windowTitle = QStringLiteral("qBittorrent XMOD " QBT_VERSION)
         + (!suffix.isEmpty() ? (separator + suffix) : QString());
 
     refreshWindowTitle();
@@ -1446,24 +1446,24 @@ void MainWindow::loadPreferences()
     // Torrent properties
     m_propertiesWidget->reloadPreferences();
 
-#if defined(Q_OS_WIN) || defined(Q_OS_MACOS)
-    if (pref->isUpdateCheckEnabled())
-    {
-        if (!m_programUpdateTimer)
-        {
-            m_programUpdateTimer = new QTimer(this);
-            m_programUpdateTimer->setInterval(24h);
-            m_programUpdateTimer->setSingleShot(true);
-            connect(m_programUpdateTimer, &QTimer::timeout, this, [this]() { checkProgramUpdate(false); });
-            m_programUpdateTimer->start();
-        }
-    }
-    else
-    {
-        delete m_programUpdateTimer;
-        m_programUpdateTimer = nullptr;
-    }
-#endif
+//#if defined(Q_OS_WIN) || defined(Q_OS_MACOS)
+//    if (pref->isUpdateCheckEnabled())
+//    {
+//        if (!m_programUpdateTimer)
+//        {
+//            m_programUpdateTimer = new QTimer(this);
+//            m_programUpdateTimer->setInterval(24h);
+//            m_programUpdateTimer->setSingleShot(true);
+//            connect(m_programUpdateTimer, &QTimer::timeout, this, [this]() { checkProgramUpdate(false); });
+//            m_programUpdateTimer->start();
+//        }
+//    }
+//    else
+//    {
+//        delete m_programUpdateTimer;
+//        m_programUpdateTimer = nullptr;
+//    }
+//#endif
 
 #ifdef Q_OS_MACOS
     // Clear dock badge immediately if speed display is disabled
@@ -1904,20 +1904,20 @@ void MainWindow::refreshTrayIconTooltip()
 #if defined(Q_OS_WIN) || defined(Q_OS_MACOS)
 void MainWindow::checkProgramUpdate(const bool invokedByUser)
 {
-    if (m_programUpdateTimer)
-        m_programUpdateTimer->stop();
+    //if (m_programUpdateTimer)
+    //    m_programUpdateTimer->stop();
 
-    m_ui->actionCheckForUpdates->setEnabled(false);
-    m_ui->actionCheckForUpdates->setText(tr("Checking for Updates..."));
-    m_ui->actionCheckForUpdates->setToolTip(tr("Already checking for program updates in the background"));
+    //m_ui->actionCheckForUpdates->setEnabled(false);
+    //m_ui->actionCheckForUpdates->setText(tr("Checking for Updates..."));
+    //m_ui->actionCheckForUpdates->setToolTip(tr("Already checking for program updates in the background"));
 
-    auto *updater = new ProgramUpdater(this);
-    connect(updater, &ProgramUpdater::updateCheckFinished
-        , this, [this, invokedByUser, updater]()
-    {
-        handleUpdateCheckFinished(updater, invokedByUser);
-    });
-    updater->checkForUpdates();
+    //auto *updater = new ProgramUpdater(this);
+    //connect(updater, &ProgramUpdater::updateCheckFinished
+    //    , this, [this, invokedByUser, updater]()
+    //{
+    //    handleUpdateCheckFinished(updater, invokedByUser);
+    //});
+    //updater->checkForUpdates();
 }
 #endif
 

@@ -248,6 +248,12 @@ add_library(qbt_gui STATIC
     watchedfolderoptionsdialog.cpp
     watchedfoldersmodel.cpp
 
+
+    # my_calPeerDownloadRate.h
+	# my_calPeerDownloadRate.cpp
+	# my_ipLookup.h
+	# my_ipLookup.cpp
+
     # generated .ui headers
     ${UI_HEADERS}
 )

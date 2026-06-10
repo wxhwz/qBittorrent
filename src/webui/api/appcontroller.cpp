@@ -280,7 +280,9 @@ void AppController::preferencesAction()
     data[u"up_limit"_s] = session->globalUploadSpeedLimit();
     data[u"alt_dl_limit"_s] = session->altGlobalDownloadSpeedLimit();
     data[u"alt_up_limit"_s] = session->altGlobalUploadSpeedLimit();
-    data[u"bittorrent_protocol"_s] = static_cast<int>(session->btProtocol());
+    //data[u"bittorrent_protocol"_s] = static_cast<int>(session->btProtocol());
+    data[u"bittorrent_protocol_TCP"_s] = static_cast<int>(session->btProtocolTCP());
+    data[u"bittorrent_protocol_UTP"_s] = static_cast<int>(session->btProtocolUTP());
     data[u"limit_utp_rate"_s] = session->isUTPRateLimited();
     data[u"limit_tcp_overhead"_s] = session->includeOverheadInLimits();
     data[u"limit_lan_peers"_s] = !session->ignoreLimitsOnLAN();
@@ -793,8 +795,14 @@ void AppController::setPreferencesAction()
         session->setAltGlobalDownloadSpeedLimit(it.value().toInt());
     if (hasKey(u"alt_up_limit"_s))
        session->setAltGlobalUploadSpeedLimit(it.value().toInt());
-    if (hasKey(u"bittorrent_protocol"_s))
-        session->setBTProtocol(static_cast<BitTorrent::BTProtocol>(it.value().toInt()));
+    //if (hasKey(u"bittorrent_protocol"_s))
+    //    session->setBTProtocolTCP(static_cast<BitTorrent::BTProtocol>(it.value().toInt()));
+
+    if (hasKey(u"bittorrent_protocol_TCP"_s))
+        session->setBTProtocolTCP(static_cast<BitTorrent::BTProtocol_TCP>(it.value().toInt()));
+    if (hasKey(u"bittorrent_protocol_UTP"_s))
+        session->setBTProtocolUTP(static_cast<BitTorrent::BTProtocol_UTP>(it.value().toInt()));
+
     if (hasKey(u"limit_utp_rate"_s))
         session->setUTPRateLimited(it.value().toBool());
     if (hasKey(u"limit_tcp_overhead"_s))

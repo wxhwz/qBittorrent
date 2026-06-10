@@ -41,12 +41,14 @@
 #include "torrentannouncestatus.h"
 #include "torrentcontenthandler.h"
 
+
 class QBitArray;
 class QByteArray;
 class QDateTime;
 class QUrl;
 
 template <typename T> class QFuture;
+
 
 namespace BitTorrent
 {

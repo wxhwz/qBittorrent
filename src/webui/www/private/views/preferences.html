@@ -423,14 +423,28 @@
 </div>
 
 <div id="ConnectionTab" class="PrefTab invisible">
-    <div class="formRow">
-        <label for="enable_protocol_combobox">QBT_TR(Peer connection protocol:)QBT_TR[CONTEXT=OptionsDialog]</label>
-        <select id="enable_protocol_combobox">
-            <option value="0" selected>QBT_TR(TCP and μTP)QBT_TR[CONTEXT=OptionsDialog]</option>
-            <option value="1">TCP</option>
-            <option value="2">μTP</option>
-        </select>
-    </div>
+    <fieldset class="settings">
+		<legend>QBT_TR(Peer connection protocol)QBT_TR[CONTEXT=OptionsDialog]</legend>
+		<div class="formRow">
+			<label for="enable_protocol_combobox_TCP">QBT_TR(TCP:)QBT_TR[CONTEXT=OptionsDialog]</label>
+			<select id="enable_protocol_combobox_TCP">
+				<option value="0" selected>QBT_TR(IN and OUT)QBT_TR[CONTEXT=OptionsDialog]</option>
+				<option value="1">IN only</option>
+				<option value="2">OUT only</option>
+				<option value="3">Disable</option>
+			</select>
+		</div>
+		<div class="formRow">
+			<label for="enable_protocol_combobox_UTP">QBT_TR(UTP:)QBT_TR[CONTEXT=OptionsDialog]</label>
+			<select id="enable_protocol_combobox_UTP">
+				<option value="0" selected>QBT_TR(IN and OUT)QBT_TR[CONTEXT=OptionsDialog]</option>
+				<option value="1">IN only</option>
+				<option value="2">OUT only</option>
+				<option value="3">Disable</option>
+			</select>
+		</div>
+    </fieldset>
+	
     <fieldset class="settings">
         <legend>QBT_TR(Listening Port)QBT_TR[CONTEXT=OptionsDialog]</legend>
         <div class="formRow">
@@ -2533,7 +2547,9 @@ Use ';' to split multiple entries. Can use wildcard '*'.)QBT_TR[CONTEXT=OptionsD
                     document.getElementById("altUpLimitValue").value = (Number(pref.alt_up_limit) / 1024);
                     document.getElementById("altDlLimitValue").value = (Number(pref.alt_dl_limit) / 1024);
 
-                    document.getElementById("enable_protocol_combobox").value = pref.bittorrent_protocol;
+                    //document.getElementById("enable_protocol_combobox").value = pref.bittorrent_protocol;
+					document.getElementById("enable_protocol_combobox_TCP").value = pref.bittorrent_protocol_TCP;
+					document.getElementById("enable_protocol_combobox_UTP").value = pref.bittorrent_protocol_UTP;
                     document.getElementById("limit_utp_rate_checkbox").checked = pref.limit_utp_rate;
                     document.getElementById("limit_tcp_overhead_checkbox").checked = pref.limit_tcp_overhead;
                     document.getElementById("limit_lan_peers_checkbox").checked = pref.limit_lan_peers;
@@ -2951,7 +2967,9 @@ Use ';' to split multiple entries. Can use wildcard '*'.)QBT_TR[CONTEXT=OptionsD
             }
             settings["alt_dl_limit"] = altDlLimit;
 
-            settings["bittorrent_protocol"] = Number(document.getElementById("enable_protocol_combobox").value);
+            //settings["bittorrent_protocol"] = Number(document.getElementById("enable_protocol_combobox").value);
+			settings["bittorrent_protocol_TCP"] = Number(document.getElementById("enable_protocol_combobox_TCP").value);
+			settings["bittorrent_protocol_UTP"] = Number(document.getElementById("enable_protocol_combobox_UTP").value);
             settings["limit_utp_rate"] = document.getElementById("limit_utp_rate_checkbox").checked;
             settings["limit_tcp_overhead"] = document.getElementById("limit_tcp_overhead_checkbox").checked;
             settings["limit_lan_peers"] = document.getElementById("limit_lan_peers_checkbox").checked;

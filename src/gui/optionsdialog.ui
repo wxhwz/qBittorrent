@@ -95,7 +95,7 @@
      </widget>
      <widget class="QStackedWidget" name="tabOption">
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="tabBehaviorPage">
        <layout class="QVBoxLayout" name="verticalLayout_10">
@@ -127,8 +127,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>504</width>
-             <height>1064</height>
+             <width>502</width>
+             <height>1536</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_9">
@@ -957,8 +957,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>539</width>
-             <height>1457</height>
+             <width>586</width>
+             <height>1680</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout">
@@ -1788,54 +1788,112 @@ readme[0-9].txt: filter 'readme1.txt', 'readme2.txt' but not 'readme10.txt'.</st
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>0</y>
-             <width>504</width>
-             <height>848</height>
+             <y>-59</y>
+             <width>498</width>
+             <height>1115</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_20">
             <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_12">
-              <item>
-               <widget class="QLabel" name="label_24">
-                <property name="text">
-                 <string>Peer connection protocol:</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QComboBox" name="comboProtocol">
-                <item>
-                 <property name="text">
-                  <string>TCP and μTP</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string notr="true">TCP</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string notr="true">μTP</string>
-                 </property>
-                </item>
-               </widget>
-              </item>
-              <item>
-               <spacer name="horizontalSpacer_23">
-                <property name="orientation">
-                 <enum>Qt::Orientation::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-             </layout>
+             <widget class="QGroupBox" name="PeerConnectionBox">
+              <property name="title">
+               <string>Peer Connection Protocol</string>
+              </property>
+              <layout class="QVBoxLayout" name="verticalLayout_43">
+               <item>
+                <layout class="QGridLayout" name="gridLayout_8">
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="label_9">
+                   <property name="text">
+                    <string>TCP:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="2">
+                  <spacer name="horizontalSpacer_25">
+                   <property name="orientation">
+                    <enum>Qt::Orientation::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QComboBox" name="comboProtocolTCP">
+                   <item>
+                    <property name="text">
+                     <string>IN and OUT</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>IN only</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>OUT only</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Disable</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QLabel" name="label_15">
+                   <property name="text">
+                    <string>μTP:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="2">
+                  <spacer name="horizontalSpacer_26">
+                   <property name="orientation">
+                    <enum>Qt::Orientation::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item row="1" column="1">
+                  <widget class="QComboBox" name="comboProtocolUTP">
+                   <item>
+                    <property name="text">
+                     <string>IN and OUT</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>IN only</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>OUT only</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Disable</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
             </item>
             <item>
              <widget class="QGroupBox" name="ListeningPortBox">
@@ -1897,6 +1955,69 @@ readme[0-9].txt: filter 'readme1.txt', 'readme2.txt' but not 'readme10.txt'.</st
                  </property>
                 </widget>
                </item>
+               <item>
+                <widget class="QGroupBox" name="CheckStun">
+                 <property name="layoutDirection">
+                  <enum>Qt::LayoutDirection::LeftToRight</enum>
+                 </property>
+                 <property name="autoFillBackground">
+                  <bool>false</bool>
+                 </property>
+                 <property name="title">
+                  <string>Use STUN for tcp hole punching</string>
+                 </property>
+                 <property name="flat">
+                  <bool>false</bool>
+                 </property>
+                 <property name="checkable">
+                  <bool>true</bool>
+                 </property>
+                 <property name="checked">
+                  <bool>true</bool>
+                 </property>
+                 <layout class="QVBoxLayout" name="verticalLayout_42">
+                  <item>
+                   <layout class="QGridLayout" name="gridLayout_19">
+                    <item row="0" column="0">
+                     <widget class="QLabel" name="lblStunServer">
+                      <property name="text">
+                       <string>StunServer:</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="1">
+                     <widget class="QLineEdit" name="textStunServer">
+                      <property name="text">
+                       <string>turn.cloud-rtc.com:80</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="1" column="0">
+                     <widget class="QLabel" name="lblStunHttpServer">
+                      <property name="text">
+                       <string>HttpServer:</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="1" column="1">
+                     <widget class="QLineEdit" name="textStunHttpServer">
+                      <property name="text">
+                       <string>www.baidu.com</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <widget class="QCheckBox" name="checkSameIPv6Port">
+                    <property name="text">
+                     <string>Same IPv6 Port(for PT)</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
               </layout>
              </widget>
             </item>
@@ -1906,10 +2027,20 @@ readme[0-9].txt: filter 'readme1.txt', 'readme2.txt' but not 'readme10.txt'.</st
                <string>Connections Limits</string>
               </property>
               <layout class="QGridLayout" name="gridLayout">
-               <item row="0" column="0">
-                <widget class="QCheckBox" name="checkMaxConnections">
+               <item row="2" column="1">
+                <widget class="QSpinBox" name="spinMaxUploads">
+                 <property name="maximum">
+                  <number>2147483647</number>
+                 </property>
+                 <property name="value">
+                  <number>8</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QCheckBox" name="checkMaxConnectionsPerTorrent">
                  <property name="text">
-                  <string>Global maximum number of connections:</string>
+                  <string>Maximum number of connections per torrent:</string>
                  </property>
                  <property name="checked">
                   <bool>true</bool>
@@ -1932,6 +2063,16 @@ readme[0-9].txt: filter 'readme1.txt', 'readme2.txt' but not 'readme10.txt'.</st
                  </property>
                 </widget>
                </item>
+               <item row="3" column="1">
+                <widget class="QSpinBox" name="spinMaxUploadsPerTorrent">
+                 <property name="maximum">
+                  <number>2147483647</number>
+                 </property>
+                 <property name="value">
+                  <number>4</number>
+                 </property>
+                </widget>
+               </item>
                <item row="0" column="2">
                 <spacer name="horizontalSpacer_3">
                  <property name="orientation">
@@ -1945,13 +2086,17 @@ readme[0-9].txt: filter 'readme1.txt', 'readme2.txt' but not 'readme10.txt'.</st
                  </property>
                 </spacer>
                </item>
-               <item row="1" column="0">
-                <widget class="QCheckBox" name="checkMaxConnectionsPerTorrent">
+               <item row="2" column="0">
+                <widget class="QCheckBox" name="checkMaxUploads">
                  <property name="text">
-                  <string>Maximum number of connections per torrent:</string>
+                  <string>Global maximum number of upload slots:</string>
                  </property>
-                 <property name="checked">
-                  <bool>true</bool>
+                </widget>
+               </item>
+               <item row="3" column="0">
+                <widget class="QCheckBox" name="checkMaxUploadsPerTorrent">
+                 <property name="text">
+                  <string>Maximum number of upload slots per torrent:</string>
                  </property>
                 </widget>
                </item>
@@ -1968,37 +2113,13 @@ readme[0-9].txt: filter 'readme1.txt', 'readme2.txt' but not 'readme10.txt'.</st
                  </property>
                 </widget>
                </item>
-               <item row="2" column="0">
-                <widget class="QCheckBox" name="checkMaxUploads">
+               <item row="0" column="0">
+                <widget class="QCheckBox" name="checkMaxConnections">
                  <property name="text">
-                  <string>Global maximum number of upload slots:</string>
+                  <string>Global maximum number of connections:</string>
                  </property>
-                </widget>
-               </item>
-               <item row="2" column="1">
-                <widget class="QSpinBox" name="spinMaxUploads">
-                 <property name="maximum">
-                  <number>2147483647</number>
-                 </property>
-                 <property name="value">
-                  <number>8</number>
-                 </property>
-                </widget>
-               </item>
-               <item row="3" column="0">
-                <widget class="QCheckBox" name="checkMaxUploadsPerTorrent">
-                 <property name="text">
-                  <string>Maximum number of upload slots per torrent:</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="3" column="1">
-                <widget class="QSpinBox" name="spinMaxUploadsPerTorrent">
-                 <property name="maximum">
-                  <number>2147483647</number>
-                 </property>
-                 <property name="value">
-                  <number>4</number>
+                 <property name="checked">
+                  <bool>true</bool>
                  </property>
                 </widget>
                </item>
@@ -2021,6 +2142,12 @@ readme[0-9].txt: filter 'readme1.txt', 'readme2.txt' but not 'readme10.txt'.</st
                 <layout class="QHBoxLayout" name="i2pLayout">
                  <item>
                   <widget class="QLabel" name="labelI2PHost">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>24</height>
+                    </size>
+                   </property>
                    <property name="text">
                     <string>Host:</string>
                    </property>
@@ -2365,8 +2492,8 @@ readme[0-9].txt: filter 'readme1.txt', 'readme2.txt' but not 'readme10.txt'.</st
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>302</width>
-             <height>408</height>
+             <width>339</width>
+             <height>447</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -2714,8 +2841,8 @@ readme[0-9].txt: filter 'readme1.txt', 'readme2.txt' but not 'readme10.txt'.</st
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>413</width>
-             <height>693</height>
+             <width>499</width>
+             <height>949</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -3310,8 +3437,8 @@ Disable encryption: Only connect to peers without protocol encryption</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>521</width>
-             <height>541</height>
+             <width>229</width>
+             <height>161</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="searchPageScrollAreaWidgetContentsLayout">
@@ -3420,8 +3547,8 @@ Disable encryption: Only connect to peers without protocol encryption</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>336</width>
-             <height>391</height>
+             <width>396</width>
+             <height>445</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_27">
@@ -3614,8 +3741,8 @@ Disable encryption: Only connect to peers without protocol encryption</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>382</width>
-             <height>1045</height>
+             <width>474</width>
+             <height>1300</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_23">

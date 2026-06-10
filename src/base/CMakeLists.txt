@@ -72,7 +72,7 @@ add_library(qbt_base STATIC
     net/dnsupdater.h
     net/downloadhandlerimpl.h
     net/downloadmanager.h
-    net/geoipdatabase.h
+    # net/geoipdatabase.h
     net/geoipmanager.h
     net/portforwarder.h
     net/proxyconfigurationmanager.h
@@ -174,7 +174,7 @@ add_library(qbt_base STATIC
     net/dnsupdater.cpp
     net/downloadhandlerimpl.cpp
     net/downloadmanager.cpp
-    net/geoipdatabase.cpp
+    # net/geoipdatabase.cpp
     net/geoipmanager.cpp
     net/portforwarder.cpp
     net/proxyconfigurationmanager.cpp
@@ -220,13 +220,17 @@ add_library(qbt_base STATIC
     utils/string.cpp
     utils/thread.cpp
     utils/version.cpp
+	
+	net/my_ipLookup.h
+	net/my_ipLookup.cpp
 )
 
+find_package(maxminddb CONFIG REQUIRED)
 target_link_libraries(qbt_base
     PRIVATE
         OpenSSL::Crypto
         OpenSSL::SSL
-        ZLIB::ZLIB
+		maxminddb::maxminddb
     PUBLIC
         LibtorrentRasterbar::torrent-rasterbar
         Qt::Core
@@ -236,6 +240,13 @@ target_link_libraries(qbt_base
         Qt::Xml
         qbt_common_cfg
 )
+
+
+if (TARGET ZLIB::ZLIB)
+    target_link_libraries(qbt_base PRIVATE ZLIB::ZLIB)
+else()
+    target_link_libraries(qbt_base PRIVATE ZLIB::ZLIBSTATIC)
+endif()
 
 if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
     find_library(AppKit_LIBRARY AppKit)

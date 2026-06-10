@@ -112,6 +112,11 @@ namespace
         START_SESSION_PAUSED,
         SESSION_SHUTDOWN_TIMEOUT,
 
+        //custom
+        CUSTOM_PEERID,
+        CUSTOM_USERAGENT,
+
+
         // libtorrent section
         LIBTORRENT_HEADER,
         BDECODE_DEPTH_LIMIT,
@@ -381,6 +386,10 @@ void AdvancedSettings::saveAdvancedSettings() const
 #endif
 
     session->setTorrentContentRemoveOption(m_comboBoxTorrentContentRemoveOption.currentData().value<BitTorrent::TorrentContentRemoveOption>());
+
+    //custom
+    session->setCustomPeerFingerprint(m_lineEditCustomPeerID.text());
+    session->setCustomUserAgent(m_lineEditCustomUserAgent.text());
 }
 
 #ifndef QBT_USES_LIBTORRENT2
@@ -911,6 +920,7 @@ void AdvancedSettings::loadAdvancedSettings()
     m_spinBoxSessionShutdownTimeout.setSpecialValueText(tr("-1 (unlimited)"));
     m_spinBoxSessionShutdownTimeout.setToolTip(u"Sets the timeout for the session to be shut down gracefully, at which point it will be forcibly terminated.<br>Note that this does not apply to the saving resume data time."_s);
     addRow(SESSION_SHUTDOWN_TIMEOUT, tr("BitTorrent session shutdown timeout [-1: unlimited]"), &m_spinBoxSessionShutdownTimeout);
+
     // Choking algorithm
     m_comboBoxChokingAlgorithm.addItem(tr("Fixed slots"), QVariant::fromValue(BitTorrent::ChokingAlgorithm::FixedSlots));
     m_comboBoxChokingAlgorithm.addItem(tr("Upload rate based"), QVariant::fromValue(BitTorrent::ChokingAlgorithm::RateBased));
@@ -1001,6 +1011,23 @@ void AdvancedSettings::loadAdvancedSettings()
     addRow(I2P_OUTBOUND_LENGTH, (tr("I2P outbound length") + u' ' + makeLink(u"https://www.libtorrent.org/reference-Settings.html#i2p_outbound_length", u"(?)"))
         , &m_spinBoxI2POutboundLength);
 #endif
+
+    //custom
+    QRegularExpression rx(u"^[ -~]{0,8}$"_s);
+    // 实例化验证器，并把 this（当前窗口）设为父对象
+    m_lineEditCustomPeerIDValidator = new QRegularExpressionValidator(rx, this);
+    m_lineEditCustomPeerID.setPlaceholderText(tr("Use the official if empty"));
+    m_lineEditCustomPeerID.setText(session->getCustomPeerFingerprint());
+    m_lineEditCustomPeerID.setValidator(m_lineEditCustomPeerIDValidator);
+    addRow(CUSTOM_PEERID, (tr("PeerID custom (no greater than 8bytes ASCII, disabled for private torrent)"))
+        , &m_lineEditCustomPeerID);
+
+    m_lineEditCustomUserAgent.setPlaceholderText(tr("Use the official if empty"));
+    m_lineEditCustomUserAgent.setText(session->getCustomUserAgent());
+    addRow(CUSTOM_USERAGENT, (tr("UserAgent custom (Disabled for private torrent)"))
+        , &m_lineEditCustomUserAgent);
+
+
 }
 
 template <typename T>
