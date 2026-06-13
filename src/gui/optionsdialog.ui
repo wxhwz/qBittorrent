@@ -2011,7 +2011,7 @@ readme[0-9].txt: filter 'readme1.txt', 'readme2.txt' but not 'readme10.txt'.</st
                   <item>
                    <widget class="QCheckBox" name="checkSameIPv6Port">
                     <property name="text">
-                     <string>Same IPv6 Port(for PT)</string>
+                     <string>Same IPv6 Port</string>
                     </property>
                    </widget>
                   </item>
