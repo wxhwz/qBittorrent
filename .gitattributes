@@ -2,6 +2,7 @@ core.eol=lf
 * text eol=lf
 *.icns binary
 *.ico binary
+*.jpg binary
 *.png binary
 *.qm binary
 *.zip binary
